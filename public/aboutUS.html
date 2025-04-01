@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CulChat</title>
+    <link rel="stylesheet" href="deepStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <style>
+        /* Enhanced Night Mode Styles */
+        body.night-mode {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg: #1e1e1e;
+            --header-bg: #1a1a1a;
+            --accent-color: #4CAF50;
+            --border-color: #333;
+            --input-bg: #2d2d2d;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* About Section */
+        .night-mode .about-section {
+            background-color: var(--bg-color);
+        }
+
+        .night-mode .about-card,
+        .night-mode .mission-section {
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .night-mode .about-card i,
+        .night-mode .mission-section i {
+            color: var(--accent-color);
+        }
+
+        .night-mode .about-statement {
+            color: var(--text-color);
+        }
+
+        .night-mode .signature {
+            color: var(--accent-color);
+        }
+
+        .night-mode .section-title,
+        .night-mode .mission-section h2 {
+            color: var(--accent-color);
+        }
+
+        /* Header */
+        .night-mode header {
+            background: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .night-mode .nav_list a {
+            color: var(--text-color);
+        }
+
+        .night-mode .nav_list a:hover,
+        .night-mode .nav_list .home-active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .night-mode .Search {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .night-mode .Search input {
+            color: var(--text-color);
+            background: transparent;
+        }
+
+        .night-mode .Search input::placeholder {
+            color: #aaa;
+        }
+
+        .night-mode .profile span {
+            color: var(--text-color);
+        }
+
+        /* Footer */
+        .night-mode footer {
+            background: #0f0f0f;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Toggle Button */
+        .night-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .night-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Night Mode Toggle Button -->
+        <button class="night-mode-toggle" id="nightModeToggle">
+            <i class='bx bx-moon'></i>
+        </button>
+        <!-- Reuse your existing header -->
+        <header>
+            <a href="deepCulchat.html" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+            <ul class="nav_list">
+                <li><a href="deepCulchat.html">Home</a></li>
+                <li><a href="global-chat.html">Global Chat</a></li>
+                <li><a href="cookbook.html">Cook Book</a></li>
+                <li><a href="#events">Culinary Events</a></li>
+                <li><a href="aboutUS.html" class="home-active">About</a></li>
+            </ul>
+            <div class="profile online">
+                <div class="Search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search recipes or chats...">
+                </div>
+                <img src="Screenshot_20210521-140850_YouTube.jpg" alt="User Avatar">
+                <span>User1</span>
+            </div>
+        </header>
+
+        <!-- About Us Section -->
+        <section class="about-section" style="padding-top: 8rem;">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h1 class="section-title">Our <span class="text-accent">Delicious</span> Origin Story</h1>
+                        <div class="about-card">
+                            <i class='bx bxs-bowl-rice'></i>
+                            <p class="about-statement">
+                                "This is a side project made cause I was feeling bored
+                                <br>P.S. DeepSeek helped a lot."
+                            </p>
+                            <div class="signature">- The CulChat Team</div>
+                        </div>
+                        
+                        <div class="mission-section">
+                            <h2><i class='bx bxs-leaf'></i> What We've Become</h2>
+                            <p>A passionate community where food lovers connect, share recipes, and geek out over culinary techniques - all because someone was bored one day!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="about-image">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc" alt="Cooking together" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reuse your existing footer -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <a href="#" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+                    <p>Connecting kitchens worldwide since 2023</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="/global" class="global_chat">Global Chat</a></li>
+                        <li><a href="cookbook.html">Cook Book</a></li>
+                        <li><a href="aboutUs.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/sasankanarzary2004/"><i class='bx bxl-instagram'></i></a>
+                        <a href="#"><i class='bx bxl-facebook'></i></a>
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="https://www.youtube.com/@sasankanarzary2423"><i class='bx bxl-youtube'></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CulChat. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </footer>
+    </main>
+    <script>
+        // Night Mode Toggle
+        const nightModeToggle = document.getElementById('nightModeToggle');
+        const body = document.body;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('nightMode') === 'enabled') {
+            body.classList.add('night-mode');
+            nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+        }
+
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            
+            // Save user preference
+            if (body.classList.contains('night-mode')) {
+                localStorage.setItem('nightMode', 'enabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+            } else {
+                localStorage.setItem('nightMode', 'disabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-moon"></i>';
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav_list').classList.toggle('active');
+            this.classList.toggle('bx-x');
+        });
+    </script>
+
+    <script>
+        // Reuse your menu toggle script from deepApp.js
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav_list').classList.toggle('active');
+            this.classList.toggle('bx-x');
+        });
+    </script>
+</body>
+</html>

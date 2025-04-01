@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Community - CulChat</title>
+    <link rel="stylesheet" href="deepStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <style>
+        /* Enhanced Night Mode Styles */
+        body.night-mode {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg: #1e1e1e;
+            --header-bg: #1a1a1a;
+            --accent-color: #4CAF50;
+            --border-color: #333;
+            --input-bg: #2d2d2d;
+            --message-bg: #252525;
+            --user-bg: #2a2a2a;
+            --bot-bg: #1a2e1a;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        .night-mode header {
+            background: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .night-mode .nav_list a {
+            color: var(--text-color);
+        }
+
+        .night-mode .nav_list a:hover,
+        .night-mode .nav_list .home-active {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .night-mode .Search {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+        }
+
+        .night-mode .Search input {
+            color: var(--text-color);
+            background: transparent;
+        }
+
+        .night-mode .profile span {
+            color: var(--text-color);
+        }
+
+        /* Chat Section */
+        .night-mode .global-chat-section {
+            background-color: var(--bg-color);
+            padding: 2rem 0;
+        }
+
+        .night-mode .chat-container {
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .night-mode .home-text h1 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .night-mode .home-text p {
+            color: #aaa;
+            margin-bottom: 2rem;
+        }
+
+        /* Form Elements */
+        .night-mode .form-group label {
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .night-mode .form-group input {
+            background: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        /* Chat Interface */
+        .night-mode .chat-interface {
+            margin-top: 2rem;
+        }
+
+        .night-mode .chat-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .night-mode .chat-header h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .night-mode .user-count {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        .night-mode .chat-main {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .night-mode .chat-display {
+            flex: 3;
+            background: var(--message-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            height: 400px;
+            overflow-y: auto;
+        }
+
+        .night-mode .user-activity {
+            flex: 1;
+            background: var(--message-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        /* Messages */
+        .night-mode .message {
+            background: var(--user-bg);
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .night-mode .bot-message {
+            background: var(--bot-bg);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .night-mode .message-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .night-mode .message-sender {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .night-mode .message-time {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
+        .night-mode .message-text {
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        /* User List */
+        .night-mode .user-activity h4 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .night-mode .user-activity ul {
+            list-style: none;
+        }
+
+        .night-mode .user-activity ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Message Form */
+        .night-mode .form-message {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .night-mode .form-message input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            font-size: 16px;
+        }
+
+        .night-mode .btn-send {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .night-mode .btn-send:hover {
+            background: #3e8e41;
+        }
+
+        /* Scrollbar */
+        .night-mode .chat-display::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .night-mode .chat-display::-webkit-scrollbar-track {
+            background: var(--input-bg);
+            border-radius: 10px;
+        }
+
+        .night-mode .chat-display::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        .night-mode .chat-display::-webkit-scrollbar-thumb:hover {
+            background: #3e8e41;
+        }
+
+        /* Toggle Button */
+        .night-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .night-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* Footer */
+        .night-mode footer {
+            background: #0f0f0f;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .night-mode .footer-links a,
+        .night-mode .social-icons a {
+            color: #ccc;
+        }
+
+        .night-mode .copyright {
+            color: #aaa;
+        }
+    </style>
+    <script defer src="global-chat.js"></script>
+</head>
+<body>
+    <main>
+        <!-- Night Mode Toggle Button -->
+        <button class="night-mode-toggle" id="nightModeToggle">
+            <i class='bx bx-moon'></i>
+        </button>
+        
+        <header>
+            <a href="deepCulchat.html" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+            <ul class="nav_list">
+                <li><a href="deepCulchat.html">Home</a></li>
+                <li><a href="global-chat.html" class="home-active">Global Community</a></li>
+                <li><a href="cookbook.html">Cook Book</a></li>
+                <li><a href="#events">Culinary Events</a></li>
+                <li><a href="aboutUs.html">About</a></li>
+            </ul>
+            <div class="profile online">
+                <div class="Search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search recipes or chats...">
+                </div>
+                <img src="Screenshot_20210521-140850_YouTube.jpg" alt="User Avatar">
+                <span>Chef123</span>
+            </div>
+        </header>
+
+        <section class="global-chat-section">
+            <div class="chat-container">
+                <div class="home-text">
+                    <h1>Global Community Chat</h1>
+                    <p>Connect with food enthusiasts from around the world</p>
+                </div>
+                
+                <form class="form-join">
+                    <div class="form-group">
+                        <label for="name">Your Chef Name</label>
+                        <input type="text" id="name" maxlength="20" placeholder="e.g. MasterChef" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="room" value="Global Community">
+                    </div>
+                    <button id="join" type="submit" class="btn">Join Global Chat</button>
+                </form>
+                
+                <div class="chat-interface" style="display: none;">
+                    <div class="chat-header">
+                        <h3>Kitchen: <span id="current-room">Global Community</span></h3>
+                        <p class="user-count">0 chefs cooking here</p>
+                    </div>
+                    <div class="chat-main">
+                        <ul class="chat-display"></ul>
+                        <div class="user-activity">
+                            <p class="user-list"></p>
+                            <p class="activity"></p>
+                        </div>
+                    </div>
+                    <form class="form-message">
+                        <input type="text" id="message" placeholder="Share your culinary thoughts..." required>
+                        <button type="submit" class="btn-send"><i class='bx bx-send'></i></button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <a href="#" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+                    <p>Connecting kitchens worldwide since 2023</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="deepCulchat.html">Home</a></li>
+                        <li><a href="global-chat.html">Global Chat</a></li>
+                        <li><a href="https://www.foodiebook.co.uk/">Cook Book</a></li>
+                        <li><a href="aboutUs.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/sasankanarzary2004/"><i class='bx bxl-instagram'></i></a>
+                        <a href="#"><i class='bx bxl-facebook'></i></a>
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="https://www.youtube.com/@sasankanarzary2423"><i class='bx bxl-youtube'></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CulChat. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </footer>
+    </main>
+    
+    <script>
+        // Night Mode Toggle
+        const nightModeToggle = document.getElementById('nightModeToggle');
+        const body = document.body;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('nightMode') === 'enabled') {
+            body.classList.add('night-mode');
+            nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+        }
+
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            
+            // Save user preference
+            if (body.classList.contains('night-mode')) {
+                localStorage.setItem('nightMode', 'enabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+            } else {
+                localStorage.setItem('nightMode', 'disabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-moon"></i>';
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav_list').classList.toggle('active');
+            this.classList.toggle('bx-x');
+        });
+    </script>
+</body>
+</html>
