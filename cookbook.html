@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CulChat Cook Book - Share & Discover Recipes</title>
+    <link rel="stylesheet" href="deepStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <style>
+        /* Cook Book Specific Styles */
+        .cookbook-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1547592180-85f173990554') center/cover no-repeat;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 2rem;
+        }
+        
+        .cookbook-hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        .cookbook-hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
+        }
+        
+        .recipe-search {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .search-container {
+            display: flex;
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-container input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        
+        .search-container button {
+            background: var(--main-color);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-container button:hover {
+            background: var(--dark-color);
+        }
+        
+        .recipe-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .filter-btn {
+            background: white;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--main-color);
+            color: white;
+        }
+        
+        .recipes-container {
+            padding: 3rem 0;
+        }
+        
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+        
+        .recipe-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .recipe-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .recipe-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .recipe-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .recipe-card:hover .recipe-img img {
+            transform: scale(1.1);
+        }
+        
+        .recipe-info {
+            padding: 1.5rem;
+        }
+        
+        .recipe-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+        
+        .recipe-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .recipe-author {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .recipe-author img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .recipe-desc {
+            margin-bottom: 1.5rem;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .recipe-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .recipe-tag {
+            background: #f0f7f0;
+            color: var(--main-color);
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        
+        .view-recipe {
+            display: inline-block;
+            background: var(--main-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .view-recipe:hover {
+            background: var(--dark-color);
+            transform: translateY(-3px);
+        }
+        
+        .featured-chef {
+            background: var(--light-color);
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .chef-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .chef-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 2rem;
+        }
+        
+        .chef-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .chef-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--main-color);
+        }
+        
+        .chef-details h3 {
+            font-size: 1.8rem;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .chef-stats {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--main-color);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        .chef-bio {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .chef-recipes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+    /* Existing styles... */
+
+    /* Enhanced Night Mode Styles */
+    body.night-mode {
+        --bg-color: #121212;
+        --text-color: #f5f5f5;
+        --light-color: #1e1e1e;
+        --dark-color: #f5f5f5;
+        --card-bg: #2d2d2d;
+        --header-bg: #1a1a1a;
+        --border-color: #444;
+        --input-bg: #333;
+        --message-bg: #252525;
+        --user-bg: #2a2a2a;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+    }
+
+    .night-mode header {
+        background: var(--header-bg);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .night-mode .nav_list a {
+        color: var(--text-color);
+    }
+
+    .night-mode .nav_list a:hover,
+    .night-mode .nav_list .home-active {
+        background: var(--main-color);
+        color: white;
+    }
+
+    .night-mode .Search {
+        background: var(--input-bg);
+        border: 1px solid var(--border-color);
+    }
+
+    .night-mode .Search input {
+        color: var(--text-color);
+        background: transparent;
+    }
+
+    .night-mode .profile span {
+        color: var(--text-color);
+    }
+
+    /* Cook Book Specific Night Mode Styles */
+    .night-mode .cookbook-hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                    url('https://images.unsplash.com/photo-1547592180-85f173990554') center/cover no-repeat;
+    }
+
+    .night-mode .recipe-card,
+    .night-mode .chef-card {
+        background: var(--card-bg);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border-color);
+    }
+
+    .night-mode .recipe-title,
+    .night-mode .chef-details h3,
+    .night-mode .section-title {
+        color: var(--text-color);
+    }
+
+    .night-mode .recipe-desc,
+    .night-mode .chef-bio,
+    .night-mode .recipe-meta,
+    .night-mode .stat-label {
+        color: #ccc;
+    }
+
+    .night-mode .search-container {
+        background: var(--input-bg);
+        border: 1px solid var(--border-color);
+    }
+
+    .night-mode .search-container input {
+        background: transparent;
+        color: var(--text-color);
+    }
+
+    .night-mode .filter-btn {
+        background: var(--input-bg);
+        color: var(--text-color);
+        border-color: var(--accent-color);
+    }
+
+    .night-mode .filter-btn.active,
+    .night-mode .filter-btn:hover {
+        background: var(--accent-color);
+        color: white;
+    }
+
+    .night-mode .recipe-tag {
+        background: #2a2a2a;
+        color: var(--accent-color);
+    }
+
+    .night-mode .featured-chef {
+        background: var(--bg-color);
+    }
+
+    .night-mode #submit-recipe {
+        background-color: var(--bg-color) !important;
+    }
+
+    .night-mode .form-group label {
+        color: var(--text-color);
+    }
+
+    .night-mode .form-group input,
+    .night-mode .form-group select,
+    .night-mode .form-group textarea {
+        background: var(--input-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+
+    .night-mode .form-group input:focus,
+    .night-mode .form-group select:focus,
+    .night-mode .form-group textarea:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+    }
+
+    .night-mode footer {
+        background: #0f0f0f;
+        border-top: 1px solid var(--border-color);
+    }
+
+    /* Night Mode Toggle Button */
+    .night-mode-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--main-color);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        border: none;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .night-mode-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Existing media queries... */
+        
+        @media (max-width: 768px) {
+            .cookbook-hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cookbook-hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .chef-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .cookbook-hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .cookbook-hero-content p {
+                font-size: 1rem;
+            }
+            
+            .search-container {
+                flex-direction: column;
+                border-radius: 10px;
+            }
+            
+            .search-container input {
+                padding: 12px 15px;
+            }
+            
+            .search-container button {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- Night Mode Toggle Button -->
+        <button class="night-mode-toggle" id="nightModeToggle">
+            <i class='bx bx-moon'></i>
+        </button>
+        
+        <header>
+            <a href="deepCulchat.html" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+            <div class="bx bx-menu" id="menu-icon"></div>
+            <ul class="nav_list">
+                <li><a href="deepCulchat.html#home">Home</a></li>
+                <li><a href="global-chat.html">Global Chat</a></li>
+                <li><a href="cookbook.html" class="home-active">Cook Book</a></li>
+                <li><a href="deepCulchat.html#events">Culinary Events</a></li>
+                <li><a href="aboutUs.html">About</a></li>
+            </ul>
+            <div class="profile online">
+                <div class="Search">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Search recipes or chats...">
+                </div>
+                <img src="Screenshot_20210521-140850_YouTube.jpg" alt="User Avatar">
+                <span>User1</span>
+            </div>
+        </header>
+
+        <section class="cookbook-hero">
+            <div class="cookbook-hero-content">
+                <h1>CulChat Community Cook Book</h1>
+                <p>Discover and share recipes from chefs around the world. Join our culinary community and contribute your own creations!</p>
+                <a href="#submit-recipe" class="btn">Submit Your Recipe</a>
+            </div>
+        </section>
+
+        <div class="recipe-search">
+            <div class="search-container">
+                <input type="text" placeholder="Search for recipes, ingredients, or chefs...">
+                <button type="submit"><i class='bx bx-search'></i></button>
+            </div>
+            
+            <div class="recipe-filters">
+                <button class="filter-btn active">All</button>
+                <button class="filter-btn">Vegetarian</button>
+                <button class="filter-btn">Vegan</button>
+                <button class="filter-btn">Gluten-Free</button>
+                <button class="filter-btn">Desserts</button>
+                <button class="filter-btn">Quick Meals</button>
+                <button class="filter-btn">Family Favorites</button>
+                <button class="filter-btn">Gourmet</button>
+            </div>
+        </div>
+
+        <section class="recipes-container">
+            <h2 class="section-title">Featured Recipes</h2>
+            <div class="recipe-grid">
+                <!-- Recipe 1 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Avocado Toast">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Gourmet Avocado Toast</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 15 mins</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Chef Maria">
+                                Chef Maria
+                            </span>
+                        </div>
+                        <p class="recipe-desc">Elevate your breakfast with this simple yet delicious avocado toast recipe featuring a hint of chili and fresh herbs.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Breakfast</span>
+                            <span class="recipe-tag">Vegetarian</span>
+                            <span class="recipe-tag">Quick</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+                
+                <!-- Recipe 2 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" alt="Vegetable Salad">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Rainbow Vegetable Bowl</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 20 mins</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Chef Jamal">
+                                Chef Jamal
+                            </span>
+                        </div>
+                        <p class="recipe-desc">A vibrant, nutrient-packed bowl with seasonal vegetables, quinoa, and a tangy lemon-tahini dressing.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Vegan</span>
+                            <span class="recipe-tag">Healthy</span>
+                            <span class="recipe-tag">Gluten-Free</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+                
+                <!-- Recipe 3 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061" alt="Pasta Dish">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Creamy Mushroom Pasta</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 30 mins</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Chef Sofia">
+                                Chef Sofia
+                            </span>
+                        </div>
+                        <p class="recipe-desc">Indulge in this rich and creamy pasta dish with wild mushrooms, garlic, and a touch of white wine.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Vegetarian</span>
+                            <span class="recipe-tag">Comfort Food</span>
+                            <span class="recipe-tag">Dinner</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+                
+                <!-- Recipe 4 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641" alt="Chocolate Cake">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Decadent Chocolate Cake</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 1 hour</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Chef Pierre">
+                                Chef Pierre
+                            </span>
+                        </div>
+                        <p class="recipe-desc">The ultimate chocolate lover's dream - moist, rich, and topped with a silky ganache.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Dessert</span>
+                            <span class="recipe-tag">Baking</span>
+                            <span class="recipe-tag">Special Occasion</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+                
+                <!-- Recipe 5 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947" alt="BBQ Ribs">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Fall-Off-The-Bone BBQ Ribs</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 4 hours</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Chef Hank">
+                                Chef Hank
+                            </span>
+                        </div>
+                        <p class="recipe-desc">Slow-cooked ribs with a homemade BBQ sauce that will have everyone coming back for more.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">BBQ</span>
+                            <span class="recipe-tag">Slow Cooked</span>
+                            <span class="recipe-tag">Weekend Project</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+                
+                <!-- Recipe 6 -->
+                <div class="recipe-card">
+                    <div class="recipe-img">
+                        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601" alt="Sushi">
+                    </div>
+                    <div class="recipe-info">
+                        <h3 class="recipe-title">Homemade Sushi Platter</h3>
+                        <div class="recipe-meta">
+                            <span><i class='bx bx-time'></i> 45 mins</span>
+                            <span class="recipe-author">
+                                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Chef Yuki">
+                                Chef Yuki
+                            </span>
+                        </div>
+                        <p class="recipe-desc">Learn the art of sushi-making with this comprehensive guide to creating beautiful rolls at home.</p>
+                        <div class="recipe-tags">
+                            <span class="recipe-tag">Japanese</span>
+                            <span class="recipe-tag">Seafood</span>
+                            <span class="recipe-tag">Special Technique</span>
+                        </div>
+                        <a href="#" class="view-recipe">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-chef">
+            <h2 class="section-title">Chef of the Month</h2>
+            <div class="chef-container">
+                <div class="chef-card">
+                    <div class="chef-header">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Chef Isabella" class="chef-avatar">
+                        <div class="chef-details">
+                            <h3>Chef Isabella Rossi</h3>
+                            <p>Italian Cuisine Specialist</p>
+                            <div class="chef-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">127</div>
+                                    <div class="stat-label">Recipes</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">24.5k</div>
+                                    <div class="stat-label">Followers</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">8</div>
+                                    <div class="stat-label">Awards</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="chef-bio">
+                        Born and raised in Tuscany, Chef Isabella brings authentic Italian flavors to your kitchen. 
+                        With over 15 years of culinary experience, she specializes in transforming simple ingredients 
+                        into extraordinary meals. Join her cooking classes in the Global Kitchen chat room every Thursday!
+                    </p>
+                    <a href="#" class="btn">Follow Chef</a>
+                    
+                    <h3 style="margin-top: 3rem; text-align: center;">Isabella's Popular Recipes</h3>
+                    <div class="chef-recipes">
+                        <!-- Mini Recipe 1 -->
+                        <div class="recipe-card">
+                            <div class="recipe-img">
+                                <img src="https://images.unsplash.com/photo-1534939561126-4b33d797a937" alt="Pasta">
+                            </div>
+                            <div class="recipe-info">
+                                <h3 class="recipe-title">Pasta Carbonara</h3>
+                                <div class="recipe-meta">
+                                    <span><i class='bx bx-time'></i> 25 mins</span>
+                                </div>
+                                <a href="#" class="view-recipe">View Recipe</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini Recipe 2 -->
+                        <div class="recipe-card">
+                            <div class="recipe-img">
+                                <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3" alt="Pizza">
+                            </div>
+                            <div class="recipe-info">
+                                <h3 class="recipe-title">Neapolitan Pizza</h3>
+                                <div class="recipe-meta">
+                                    <span><i class='bx bx-time'></i> 2 hours</span>
+                                </div>
+                                <a href="#" class="view-recipe">View Recipe</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Mini Recipe 3 -->
+                        <div class="recipe-card">
+                            <div class="recipe-img">
+                                <img src="https://images.unsplash.com/photo-1551218808-94e220e084d2" alt="Tiramisu">
+                            </div>
+                            <div class="recipe-info">
+                                <h3 class="recipe-title">Classic Tiramisu</h3>
+                                <div class="recipe-meta">
+                                    <span><i class='bx bx-time'></i> 4 hours</span>
+                                </div>
+                                <a href="#" class="view-recipe">View Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="submit-recipe" class="chat-section" style="background-color: white;">
+            <div class="chat-container">
+                <h2 class="section-title">Share Your Recipe</h2>
+                <form class="form-join" style="max-width: 800px;">
+                    <div class="form-group">
+                        <label for="recipe-name">Recipe Name</label>
+                        <input type="text" id="recipe-name" placeholder="e.g. Grandma's Apple Pie" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-category">Category</label>
+                        <select id="recipe-category" required>
+                            <option value="">Select a category</option>
+                            <option value="appetizer">Appetizer</option>
+                            <option value="main">Main Course</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="beverage">Beverage</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-time">Preparation Time (minutes)</label>
+                        <input type="number" id="recipe-time" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-servings">Servings</label>
+                        <input type="number" id="recipe-servings" min="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-difficulty">Difficulty Level</label>
+                        <select id="recipe-difficulty" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-image">Recipe Image (URL)</label>
+                        <input type="url" id="recipe-image" placeholder="https://example.com/image.jpg">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-ingredients">Ingredients (one per line)</label>
+                        <textarea id="recipe-ingredients" rows="5" required placeholder="2 cups flour&#10;1 tsp salt&#10;..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-instructions">Instructions</label>
+                        <textarea id="recipe-instructions" rows="8" required placeholder="Step 1: Mix dry ingredients..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-notes">Additional Notes (optional)</label>
+                        <textarea id="recipe-notes" rows="3" placeholder="Special tips or variations..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tags (select all that apply)</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="vegetarian"> Vegetarian
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="vegan"> Vegan
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="gluten-free"> Gluten-Free
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="dairy-free"> Dairy-Free
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="quick"> Quick Meal
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.3rem;">
+                                <input type="checkbox" name="recipe-tags" value="family"> Family Friendly
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="margin-top: 1rem;">Submit Recipe</button>
+                </form>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <a href="#" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+                    <p>Connecting kitchens worldwide since 2023</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="deepCulchat.html#home">Home</a></li>
+                        <li><a href="global-chat.html">Global Chat</a></li>
+                        <li><a href="cookbook.html">Cook Book</a></li>
+                        <li><a href="aboutUs.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Follow Us</h4>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/sasankanarzary2004/"><i class='bx bxl-instagram'></i></a>
+                        <a href="#"><i class='bx bxl-facebook'></i></a>
+                        <a href="#"><i class='bx bxl-twitter'></i></a>
+                        <a href="https://www.youtube.com/@sasankanarzary2423"><i class='bx bxl-youtube'></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 CulChat. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Enhanced Night Mode Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const nightModeToggle = document.getElementById('nightModeToggle');
+            const body = document.body;
+            
+            // Initialize night mode from localStorage or system preference
+            function initNightMode() {
+                const savedMode = localStorage.getItem('nightMode');
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedMode === 'enabled' || (!savedMode && systemPrefersDark)) {
+                    enableNightMode();
+                }
+            }
+            
+            function enableNightMode() {
+                body.classList.add('night-mode');
+                nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+                localStorage.setItem('nightMode', 'enabled');
+            }
+            
+            function disableNightMode() {
+                body.classList.remove('night-mode');
+                nightModeToggle.innerHTML = '<i class="bx bx-moon"></i>';
+                localStorage.setItem('nightMode', 'disabled');
+            }
+            
+            // Toggle night mode
+            nightModeToggle.addEventListener('click', () => {
+                if (body.classList.contains('night-mode')) {
+                    disableNightMode();
+                } else {
+                    enableNightMode();
+                }
+            });
+            
+            // Watch for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (localStorage.getItem('nightMode') === null) {
+                    if (e.matches) {
+                        enableNightMode();
+                    } else {
+                        disableNightMode();
+                    }
+                }
+            });
+            
+            // Initialize on load
+            initNightMode();
+            
+            // Mobile Menu Toggle
+            document.getElementById('menu-icon').addEventListener('click', function() {
+                document.querySelector('.nav_list').classList.toggle('active');
+                this.classList.toggle('bx-x');
+            });
+            
+            // Close menu when clicking on links
+            document.querySelectorAll('.nav_list a').forEach(link => {
+                link.addEventListener('click', () => {
+                    document.querySelector('.nav_list').classList.remove('active');
+                    document.getElementById('menu-icon').classList.remove('bx-x');
+                });
+            });
+            
+            // Filter buttons functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    // Filter implementation would go here
+                    console.log(`Filtering by: ${btn.textContent}`);
+                });
+            });
+            
+            // Recipe search functionality
+            const searchForm = document.querySelector('.search-container');
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const searchInput = searchForm.querySelector('input');
+                console.log(`Searching for: ${searchInput.value}`);
+                // Search implementation would go here
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CULChat.com - Connect Through Cuisine</title>
+    <link rel="stylesheet" href="deepStyle.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+        /* Enhanced Night Mode Styles */
+        body.night-mode {
+            --bg-color: #121212;
+            --text-color: #f5f5f5;
+            --card-bg: #1e1e1e;
+            --header-bg: #1a1a1a;
+            --accent-color: #4CAF50;
+            --border-color: #333;
+            --input-bg: #2d2d2d;
+            --message-bg: #252525;
+            --user-bg: #2a2a2a;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+    
+        /* Header and Navigation */
+        .night-mode header {
+            background: var(--header-bg);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid var(--border-color);
+        }
+    
+        .night-mode .nav_list a {
+            color: var(--text-color);
+        }
+    
+        .night-mode .nav_list a:hover,
+        .night-mode .nav_list .home-active {
+            background: var(--accent-color);
+            color: white;
+        }
+    
+        .night-mode .Search {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+        }
+    
+        .night-mode .Search input {
+            color: var(--text-color);
+            background: transparent;
+        }
+    
+        .night-mode .profile span {
+            color: var(--text-color);
+        }
+    
+        /* Chat Section */
+        .night-mode .chat-section {
+            background-color: var(--bg-color);
+        }
+    
+        .night-mode .chat-container {
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+        }
+    
+        .night-mode .room-selection h2 {
+            color: var(--accent-color);
+        }
+    
+        .night-mode .form-group label {
+            color: var(--text-color);
+        }
+    
+        .night-mode .form-group input,
+        .night-mode .form-group select {
+            background: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+    
+        .night-mode .form-group input:focus,
+        .night-mode .form-group select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+        }
+    
+        /* Chat Interface */
+        .night-mode .chat-header {
+            border-bottom: 1px solid var(--border-color);
+        }
+    
+        .night-mode .chat-header h3 {
+            color: var(--accent-color);
+        }
+    
+        .night-mode .chat-display,
+        .night-mode .user-activity {
+            background: var(--message-bg);
+            border: 1px solid var(--border-color);
+        }
+    
+        /* Messages */
+        .night-mode .message {
+            background: var(--user-bg) !important;
+            color: var(--text-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    
+        .night-mode .bot-message {
+            background: #1a2e1a !important;
+            border-left: 4px solid var(--accent-color);
+        }
+    
+        .night-mode .message-sender {
+            color: var(--accent-color);
+        }
+    
+        .night-mode .message-time {
+            color: #aaa;
+        }
+    
+        /* User Activity */
+        .night-mode .user-activity h4 {
+            color: var(--accent-color);
+        }
+    
+        .night-mode .user-activity ul li {
+            border-bottom: 1px solid var(--border-color);
+        }
+    
+        /* Form Elements */
+        .night-mode .form-message input {
+            background: var(--input-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+    
+        /* Scrollbar */
+        .night-mode .chat-display::-webkit-scrollbar-track {
+            background: var(--input-bg);
+        }
+    
+        .night-mode .chat-display::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+        }
+    
+        /* Features Section */
+        .night-mode .features {
+            background: var(--bg-color);
+        }
+    
+        .night-mode .feature-card {
+            background: var(--card-bg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    
+        .night-mode .feature-card h3 {
+            color: var(--accent-color);
+        }
+    
+        /* Footer */
+        .night-mode footer {
+            background: #0f0f0f;
+            border-top: 1px solid var(--border-color);
+        }
+    
+        /* Swiper Background */
+        .night-mode .home-swiper {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)) !important;
+        }
+    
+        /* Toggle Button */
+        .night-mode-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            border: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+    
+        .night-mode-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"
+        integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="deepApp.js"></script>
+</head>
+<body>
+    <main>
+        <!-- Night Mode Toggle Button -->
+        <button class="night-mode-toggle" id="nightModeToggle">
+            <i class='bx bx-moon'></i>
+        </button>
+    <header>
+        <a href="#" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="nav_list">
+            <li><a href="#home" class="home-active">Home</a></li>
+            <li><a href="global-chat.html" class="global_chat">Global Chat</a></li>
+            <li><a href="cookbook.html" class="recipes">Cook Book</a></li>
+            <li><a href="#events" class="events">Culinary Events</a></li>
+            <li><a href="aboutUs.html" class="about">About</a></li>
+        </ul>
+        <div class="profile online">
+            <div class="Search">
+                <i class='bx bx-search'></i>
+                <input type="text" placeholder="Search recipes or chats...">
+            </div>
+            <img src="Screenshot_20210521-140850_YouTube.jpg" alt="User Avatar">
+            <span>User1</span>
+        </div>
+    </header>
+
+    <section class="home-swiper" id="home">
+        <div class="stable-bg"></div>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <!-- Slide 1 -->
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <div class="home-text">
+                            <h1>Create Connections</h1>
+                            <p>Join culinary enthusiasts worldwide to share recipes, techniques, and food stories</p>
+                            <a href="#join" class="btn">Get Cooking</a>
+                        </div>
+                        <div class="home-img">
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Delicious food" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 2 -->
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <div class="home-text">
+                            <h1>Share Your Recipes</h1>
+                            <p>Exchange your favorite recipes with chefs from around the world</p>
+                            <a href="#join" class="btn">Join Now</a>
+                        </div>
+                        <div class="home-img">
+                            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" alt="Healthy vegetables" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <div class="home-text">
+                            <h1>Learn New Techniques</h1>
+                            <p>Discover cooking methods from different cultures and cuisines</p>
+                            <a href="#join" class="btn">Start Learning</a>
+                        </div>
+                        <div class="home-img">
+                            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061" alt="Cooking techniques" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 4 -->
+                <div class="swiper-slide">
+                    <div class="slide-content">
+                        <div class="home-text">
+                            <h1>Join Live Events</h1>
+                            <p>Participate in live cooking sessions with professional chefs</p>
+                            <a href="#events" class="btn">View Events</a>
+                        </div>
+                        <div class="home-img">
+                            <img src="https://images.unsplash.com/photo-1547592180-85f173990554" alt="Cooking class" loading="lazy">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+
+    <section class="chat-section" id="join">
+        <div class="chat-container">
+            <div class="room-selection">
+                <h2>Join a Culinary Conversation</h2>
+                <form class="form-join">
+                    <div class="form-group">
+                        <label for="name">Your Chef Name</label>
+                        <input type="text" id="name" maxlength="20" placeholder="e.g. MasterChef" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="room">Choose a Kitchen (Room)</label>
+                        <select id="room" required>
+                            <option value="">Select a room</option>
+                            <option value="Global Kitchen">Global Kitchen</option>
+                            <option value="Baking Corner">Baking Corner</option>
+                            <option value="Vegan Vibes">Vegan Vibes</option>
+                            <option value="BBQ Masters">BBQ Masters</option>
+                            <option value="Mixology Lab">Mixology Lab</option>
+                            <option value="custom">Create Custom Room</option>
+                        </select>
+                        <input type="text" id="custom-room" placeholder="Custom room name" style="display: none;">
+                    </div>
+                    <button id="join" type="submit" class="btn">Enter Kitchen</button>
+                </form>
+            </div>
+            
+            <div class="chat-interface" style="display: none;">
+                <div class="chat-header">
+                    <h3>Kitchen: <span id="current-room">Global Kitchen</span></h3>
+                    <p class="user-count">5 chefs cooking here</p>
+                </div>
+                <div class="chat-main">
+                    <ul class="chat-display"></ul>
+                    <div class="user-activity">
+                        <p class="user-list"></p>
+                        <p class="activity"></p>
+                    </div>
+                </div>
+                <form class="form-message">
+                    <input type="text" id="message" placeholder="Share your culinary thoughts..." required>
+                    <button type="submit" class="btn-send"><i class='bx bx-send'></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="global">
+        <h2 class="section-title">Why Join CulChat?</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <i class='bx bxs-group'></i>
+                <h3>Global Community</h3>
+                <p>Connect with food lovers from around the world and exchange cultural recipes.</p>
+            </div>
+            <div class="feature-card">
+                <i class='bx bxs-book-alt'></i>
+                <h3>Recipe Sharing</h3>
+                <p>Share your secret recipes or discover new ones from our community cookbook.</p>
+            </div>
+            <div class="feature-card">
+                <i class='bx bxs-video'></i>
+                <h3>Live Cooking</h3>
+                <p>Join live cooking sessions and interact with chefs in real-time.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <a href="#" class="logo"><i class='bx bxs-bowl-hot'></i>CulChat</a>
+                <p>Connecting kitchens worldwide since 2023</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="/global" class="global_chat">Global Chat</a></li>
+                    <li><a href="cookbook.html">Cook Book</a></li>
+                    <li><a href="aboutUs.html">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/sasankanarzary2004/"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-twitter'></i></a>
+                    <a href="https://www.youtube.com/@sasankanarzary2423"><i class='bx bxl-youtube'></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 CulChat. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="main.js"></script>
+    </main>
+    <script>
+        // Night Mode Toggle
+        const nightModeToggle = document.getElementById('nightModeToggle');
+        const body = document.body;
+        
+        // Check for saved user preference
+        if (localStorage.getItem('nightMode') === 'enabled') {
+            body.classList.add('night-mode');
+            nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+        }
+
+        nightModeToggle.addEventListener('click', () => {
+            body.classList.toggle('night-mode');
+            
+            // Save user preference
+            if (body.classList.contains('night-mode')) {
+                localStorage.setItem('nightMode', 'enabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-sun"></i>';
+            } else {
+                localStorage.setItem('nightMode', 'disabled');
+                nightModeToggle.innerHTML = '<i class="bx bx-moon"></i>';
+            }
+        });
+
+        // Mobile Menu Toggle
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.querySelector('.nav_list').classList.toggle('active');
+            this.classList.toggle('bx-x');
+        });
+    </script>
+</body>
+</html>
